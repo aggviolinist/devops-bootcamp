@@ -1,0 +1,89 @@
+## Static Site Hosting on AWS
+### 1. Network Configuration
+ - VPC Setup
+ - Create a VPC.
+ - Add a Subnet.
+ - Attach an Internet Gateway (IGW).
+ - Configure a Route Table: The route table makes public subnets public.
+ - Add a route to the IGW with destination 0.0.0.0/0.
+ - The Main Route Table (without an IGW route) is used for private subnets.
+ - Associate the route table to the subnet (to make it public).
+ - Create a NAT Gateway: Enables outbound internet access from private subnets (e.g., for updates or patches).
+    - Provides one-way connectivity from private resources — external users cannot access them.
+
+### 2. Security Groups
+ - Create security groups within your VPC:
+a. SSH Security Group
+Port 22 (SSH) — My IP only
+b. Application Load Balancer (ALB) Security Group
+Ports 80/443 — Anywhere
+c. Web Server Security Group
+Allow SSH only from the public subnet (bastion host).
+Allow inbound traffic on ports 80 and 443.
+
+### 3. Storage
+
+- Create an S3 bucket. 
+```sh  
+aws s3 mb s3://dev-app-wefiles 
+```
+- Upload static web files 
+```sh 
+aws s3 cp project+1+assets.zip s3://dev-app-webfiles/ --recursive 
+```
+
+### 4. Permissions (IAM)
+- Create an IAM Role:
+
+- Trusted entity: EC2 service
+- Policy: AmazonS3FullAccess
+- Role name: Choose an identifiable name
+- Click Create Role
+
+### 5. Server Setup
+- EC2 Instances (Bastion Host & Web Server)
+- Create a key pair for SSH access.
+- Launch EC2 instances (use the default VPC):
+   - Bastion Host → in public subnet.
+   - Web Server → in private subnet.
+- Attach IAM Role with S3 full access.
+- Add a deployment script (user data) to pull static site content from the S3 bucket to the web server.
+
+### 6. Load Balancing (Target Group & ALB)
+ - a. Create a Target Group
+ - VPC: devVPC
+ - Targets: Web servers
+ - Include pending instances as needed
+ - Click Create Target Group
+
+ - b. Create an Application Load Balancer (ALB)
+ - Type: Internet-facing
+ - IP version: IPv4
+ - VPC: devVPC
+ - Availability Zones: AZ1 and AZ2
+ - Subnets: Public subnets only
+ - Security Group: ALB SG
+ - Listeners & Routes: Default
+ - Forward traffic to the target group created above
+
+### 7. Scaling (Auto Scaling Group)
+ - a. Launch Template
+ - Enable Auto Scaling guidance.
+ - AMI: Amazon Linux 2023 (Quick Start).
+ - Instance Type: t2.micro.
+ - Security Group: Web Server SG.
+ - IAM Role: S3 Full Access.
+ - User Data: Add the deployment script.
+ - Do not select a VPC yet.
+ - b. Auto Scaling Group (ASG)
+ - Select the launch template.
+ - Choose the VPC.
+ - Select private subnets for app instances.
+ - Attach the existing ALB and Target Group.
+ - Enable Health Checks.
+ - Set Desired Capacity (e.g., min=1, max=4).
+ - Use default scaling policies.
+
+### 8. Cleanup / Deletion
+
+To remove all resources safely: -> Delete the Auto Scaling Group. -> Delete the Launch Template -> Delete the ALB -> Delete the Target Group -> Delete the NAT Gateway -> Release the Elastic IP -> Clean up and delete Security Groups (Web, ALB, SSH).
