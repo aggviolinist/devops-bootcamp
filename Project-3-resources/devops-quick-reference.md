@@ -1,7 +1,12 @@
 # DevOps Quick Reference Guide
 
 ## AWS Configuration
-
+## Install AWS CLI
+```sh
+curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+unzip awscliv2.zip
+sudo ./aws/install
+```
 ### Initial Setup
 ```bash
 # Configure AWS credentials
@@ -49,6 +54,8 @@ For files larger than 100MB:
 
 ```bash
 # Install Git LFS (one-time setup per machine)
+sudo apt update
+sudo apt install git-lfs
 git lfs install
 
 # Track large files by extension
@@ -58,7 +65,7 @@ git lfs track "*.zip"
 git add .gitattributes
 
 # Add large file
-git add nest.zip
+git add Project-3-resources/app/shopwise.zip
 
 # Commit and push
 git commit -m "Add large ZIP file using Git LFS"
