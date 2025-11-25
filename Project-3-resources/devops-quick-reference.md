@@ -18,7 +18,12 @@ aws configure
 ### Generate SSH Key Pairs
 ```bash
 # Generate ED25519 key pair
-ssh-keygen -t ed25519
+ssh-keygen -t rsa -b 4096 -C "your_email@example.com"
+eval "$(ssh-agent -s)"
+ssh-add ~/.ssh/id_rsa
+cat ~/.ssh/id_rsa.pub
+git remote set-url origin git@github.com:USERNAME/REPO.git
+ssh -T git@github.com
 ```
 
 ---
