@@ -17,3 +17,8 @@ variable "private_subnet_count" {
     description = "Number of private subnets to create"
     type = number
 }
+
+variable "internet_cidr" {
+    description = "CIDR block for internet access"
+    type = string
+}
