@@ -11,4 +11,5 @@ module "security" {
     project_name = var.project_name
     vpc_cidr = var.vpc_cidr
     vpc_id = module.network.vpc_id
+    
 }
