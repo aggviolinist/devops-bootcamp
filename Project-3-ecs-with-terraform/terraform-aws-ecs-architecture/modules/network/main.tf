@@ -10,4 +10,11 @@ resource "aws_vpc" "container_vpc" {
 }
 
 #Subnet
-resource "aws"
+resource "aws_subnet" "public_subnet" {
+    count = var.public_subnet_count
+    
+}
+
+resource "aws_subnet" "private_subnet" {
+    count = var.private_subnet_count
+}
