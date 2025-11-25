@@ -8,3 +8,6 @@ resource "aws_vpc" "container_vpc" {
         Name = "${var.project_name}-vpc"
     }
 }
+
+#Subnet
+resource "aws"
