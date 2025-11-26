@@ -28,6 +28,7 @@ variable "bucket_name" {
   type        = string
 }
 
+
 #EC2 Instance Type
 variable "instance_type" {
   description = "EC2 Instance Type for container instances"

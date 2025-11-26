@@ -86,7 +86,7 @@ resource "aws_security_group" "container_sg" {
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
-    cidr_blocks = [var.vpc_cidr]
+    cidr_blocks = [var.internet_cidr]
   }
 
   tags = {
@@ -112,7 +112,7 @@ resource "aws_security_group" "database_sg" {
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
-    cidr_blocks = [var.vpc_cidr]
+    cidr_blocks = [var.internet_cidr]
   }
 
   tags = {

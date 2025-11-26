@@ -19,7 +19,7 @@ variable "container_sg_id" {
     type        = string
 }
 
-variable "ec2instance_instance_profile" {
+variable "ec2_instance_profile" {
     description = "IAM Instance Profile for EC2 instances"
     type        = string
 }
