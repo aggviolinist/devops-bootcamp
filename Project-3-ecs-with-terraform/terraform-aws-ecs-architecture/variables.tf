@@ -22,5 +22,14 @@ variable "internet_cidr" {
   type        = string
 }
 
-#Security
+#S3 Bucket
+variable "bucket_name" {
+  description = "The name of the S3 bucket to be created"
+  type        = string
+}
 
+#EC2 Instance Type
+variable "instance_type" {
+  description = "EC2 Instance Type for container instances"
+  type        = string
+}

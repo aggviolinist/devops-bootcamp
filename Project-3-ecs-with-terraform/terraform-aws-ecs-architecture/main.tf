@@ -16,3 +16,24 @@ module "security" {
   internet_cidr = var.internet_cidr
 
 }
+
+module "management" {
+    source = "./modules/management"
+    project_name = var.project_name
+}
+
+module "storage" {
+    source = "./modules/storage"
+    project_name = var.project_name
+    bucket_name = var.bucket_name
+}
+
+module "instances" {
+    source = "./modules/instances"
+    project_name = var.project_name
+    private_subnet_ids = module.network.private_subnet_ids
+    instance_type = var.instance_type
+    ec2_instance_profile = module.management.ec2_instance_profile
+    eice_ssh_sg_id = module.security.eice_ssh_sg_id
+    container_sg_id = module.security.container_sg_id
+}
