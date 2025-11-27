@@ -39,13 +39,13 @@ module "instances" {
 }
 
 module "database" {
-  source                 = "./modules/database"
-  project_name           = var.project_name
-  db_name                = var.db_name
-  instance_class         = var.instance_class
-  engine                 = var.engine
-  engine_version         = var.engine_version
-  db_username            = var.db_username
-  database_sg_id = module.security.database_sg_id
-  private_subnet_ids             = module.network.private_subnet_ids
+  source             = "./modules/database"
+  project_name       = var.project_name
+  db_name            = var.db_name
+  instance_class     = var.instance_class
+  engine             = var.engine
+  engine_version     = var.engine_version
+  db_username        = var.db_username
+  database_sg_id     = module.security.database_sg_id
+  private_subnet_ids = module.network.private_subnet_ids
 }

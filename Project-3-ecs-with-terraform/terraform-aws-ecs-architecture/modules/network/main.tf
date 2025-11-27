@@ -27,6 +27,7 @@ resource "aws_subnet" "public_subnet" {
 
   tags = {
     Name = "${var.project_name}-public-subnet-${count.index + 1}"
+    tier = "alb & nat"
   }
 
   depends_on = [aws_vpc.container_vpc]
