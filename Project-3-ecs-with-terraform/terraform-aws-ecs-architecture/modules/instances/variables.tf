@@ -10,18 +10,18 @@ variable "private_subnet_ids" {
 }
 
 variable "eice_ssh_sg_id" {
-    description = "Security Group ID for SSH access"
-    type        = string
+  description = "Security Group ID for SSH access"
+  type        = string
 }
 
 variable "container_sg_id" {
-    description = "Security Group ID for container instances"
-    type        = string
+  description = "Security Group ID for container instances"
+  type        = string
 }
 
 variable "ec2_instance_profile" {
-    description = "IAM Instance Profile for EC2 instances"
-    type        = string
+  description = "IAM Instance Profile for EC2 instances"
+  type        = string
 }
 
 variable "instance_type" {

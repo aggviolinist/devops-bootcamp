@@ -27,3 +27,7 @@ variable "database_sg_id" {
   description = "Security Group ID for the database"
   type        = string
 }
+variable "private_subnet_ids" {
+  description = "List of private subnet IDs"
+  type        = list(string)
+}
