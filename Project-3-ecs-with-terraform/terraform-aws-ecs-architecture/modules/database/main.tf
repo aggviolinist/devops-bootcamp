@@ -1,6 +1,32 @@
-resource ""
+#Subnet Group
+resource "aws_db_subnet_group" "ecs_tier_rds_db_subnet_group" {
+    name = "${var.project_name}-db-subnet-group"
+    subnet_ids = [var.private_subnet_ids[2], var.private_subnet_ids[3]]
+
+    tags = {
+        Name = "${var.project_name}-db-subnet-group"
+    }
+}
+
+#Password Manager
+resource "random_password" "ecs_create_db_password" {
+    length = 16
+    special = true
+    override_special = "!#$%&*()-_=+[]{}<>:?"
+    min_lower = 1
+    min_upper = 1
+    min_numeric = 1
+    min_special = 1
+}
+
+#Secret Manager
+resource "aws_secretsmanager_secret" "ecs_rds_secret" {
+    name = "${var.project_name}-ecs-rds-secret"
+    recovery_window_in_days = 7
+}
 
 
+#Database
 resource "aws_db_instance" "ecs_tier_rds_database" {
     identifier = "${var.project_name}-db"
     db_name = var.db_name
@@ -9,14 +35,14 @@ resource "aws_db_instance" "ecs_tier_rds_database" {
     engine_version = var.engine_version
     allocated_storage = 20
     skip_final_snapshot = true
-    db_subnet_group_name = ****************
-    vpc_security_group_ids = [var.database_sg_id] database_sg_id
+    db_subnet_group_name = aws_db_subnet_group.ecs_tier_rds_db_subnet_group.name
+    vpc_security_group_ids = [var.database_sg_id]
     storage_encrypted = true
     publicly_accessible = false
     multi_az = false
     port = 3306
     username = var.db_username
-    password = ***************
+    password = random_password.ecs_create_db_password.result
 
     tags = {
         Name = "${var.project_name}-database"
