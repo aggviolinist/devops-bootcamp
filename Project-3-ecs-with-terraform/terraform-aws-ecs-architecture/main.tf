@@ -49,3 +49,14 @@ module "database" {
   database_sg_id     = module.security.database_sg_id
   private_subnet_ids = module.network.private_subnet_ids
 }
+
+module "containers" {
+  source = "./modules/containers"
+
+
+}
+module "registry" {
+  source       = "./modules/registry"
+  project_name = var.project_name
+
+}

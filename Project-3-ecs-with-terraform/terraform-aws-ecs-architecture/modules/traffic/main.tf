@@ -1,8 +1,8 @@
 resource "aws_alb_target_group" "ecs_three_tier_target_group" {
-  name     = "${var.project_name}-target-group"
-  port     = 80
-  protocol = "HTTP"
-  vpc_id   = var.vpc_id
+  name        = "${var.project_name}-target-group"
+  port        = 80
+  protocol    = "HTTP"
+  vpc_id      = var.vpc_id
   target_type = "ip"
 
   health_check {

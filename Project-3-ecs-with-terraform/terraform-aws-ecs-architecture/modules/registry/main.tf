@@ -1,6 +1,6 @@
 # Create ECR repository
 resource "aws_ecr_repository" "nest_app_repo" {
-  name = "${var.project_name}-nest-app"
+  name                 = "${var.project_name}-nest-app"
   image_tag_mutability = "MUTABLE"
 
   image_scanning_configuration {

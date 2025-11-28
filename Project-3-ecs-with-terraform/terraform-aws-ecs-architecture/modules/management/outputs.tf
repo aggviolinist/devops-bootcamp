@@ -1,5 +1,5 @@
 output "ec2_instance_profile" {
-  value = aws_iam_instance_profile.custom_role_for_ec2_policies.name 
+  value = aws_iam_instance_profile.custom_role_for_ec2_policies.name
 }
 
 
