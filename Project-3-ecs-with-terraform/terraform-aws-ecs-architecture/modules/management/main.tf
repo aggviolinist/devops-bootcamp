@@ -10,7 +10,6 @@ resource "aws_iam_policy" "custom_policy_for_s3" {
         Effect = "Allow"
         Action = [
           "s3:GetObject",
-          "s3:CreateBucket",
           "s3:ListBucket",
           "s3:ListAllMyBuckets"
         ]
