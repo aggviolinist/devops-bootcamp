@@ -117,13 +117,13 @@ resource "aws_iam_role_policy_attachment" "attach_secret_manager_policy_to_ecs_t
   role       = aws_iam_role.custom_role_for_ecs_task_policies.name
   policy_arn = aws_iam_policy.custom_policy_for_secrets_manager.arn
 }
-resource "aws_iam_policy_attachment" "attach_s3_policies_to_ecs_task_role" {
+resource "aws_iam_role_policy_attachment" "attach_s3_policies_to_ecs_task_role" {
   role = aws_iam_role.custom_role_for_ecs_task_policies.name
   policy_arn = aws_iam_policy.custom_policy_for_s3.arn
 }
-resource "aws_iam_policy_attachment" "attach_ssm_full_access_to_ecs_task_role" {
+resource "aws_iam_role_policy_attachment" "attach_ssm_full_access_to_ecs_task_role" {
   role = aws_iam_role.custom_role_for_ecs_task_policies.name
-  policy_arn = "arn:aws:iam::aws:policy/AmazonSSMFullAccess"
+  policy_arn = "arn:aws:iam::aws:policy/AmazonSSMReadOnly"
 } 
 
 #ecs task execution role policy attachments
@@ -135,15 +135,7 @@ resource "aws_iam_role_policy_attachment" "attach_secret_manager_policy_to_ecs_t
   role       = aws_iam_role.custom_role_for_ecs_task_execution_policies.name
   policy_arn = aws_iam_policy.custom_policy_for_secrets_manager.arn
 }
-resource "aws_iam_role_policy_attachment" "attach_ssm_full_access_to_ecs_task_execution_role" {
-  role = aws_iam_role.custom_role_for_ecs_task_execution_policies.name
-  policy_arn = "arn:aws:iam::aws:policy/AmazonSSMFullAccess"
-}
 resource "aws_iam_role_policy_attachment" "attach_cloudwatch_logs_to_ecs_task_execution_role" {
   role       = aws_iam_role.custom_role_for_ecs_task_execution_policies.name
   policy_arn = "arn:aws:iam::aws:policy/CloudWatchLogsFullAccess"
-}
-resource "aws_iam_role_policy_attachment" "attach_ec2containerservice_to_ecs_task_execution_role" {
-  role       = aws_iam_role.custom_role_for_ecs_task_execution_policies.name
-  policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerServiceforEC2Role"
 }

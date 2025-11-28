@@ -22,17 +22,16 @@ variable "ecs_task_execution_role" {
     description = "ECS Task Execution Role ARN"
     type        = string
 }
-variable "database_username" {
+variable "database_secret_arn" {
   description = "The master username for the database"
   type        = string
   sensitive = true
 }
-variable "database_password" {
-    description = "The password of the database"
-    type = string
-    sensitive = true
-}
 variable "database_endpoint" {
     description = "The database endpoint"
+    type = string
+}
+variable "ecr_repo" {
+    description = "The ECR repo for our project"
     type = string
 }

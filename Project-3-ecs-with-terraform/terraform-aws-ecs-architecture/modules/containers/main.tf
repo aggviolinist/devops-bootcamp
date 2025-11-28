@@ -33,7 +33,7 @@ resource "aws_ecs_task_definition" "nest_app_task" {
     container_definitions = jsonencode([
         {
             name = "nest-app"
-            image = "*********************************************"
+            image = "${var.ecr_repo}:latest"
             cpu = 256
             memory = 512
             essential = true
@@ -64,12 +64,12 @@ resource "aws_ecs_task_definition" "nest_app_task" {
             secrets = [ 
                 {
                 name = "DATABASE_USERNAME"
-                valueFrom  = var.database_username
+                valueFrom  = "${var.database_secret_arn}:username::"
 
                 },
                 {
                 name = "DATABASE_PASSWORD"
-                valueFrom = var.database_password
+                valueFrom = "${var.database_secret_arn}:password::"
                 }
             ]
         }

@@ -4,9 +4,9 @@ output "ec2_instance_profile" {
 
 
 output "ecs_task_role" {
-  value = aws_iam_role.custom_role_for_ecs_task_policies.name
+  value = aws_iam_role.custom_role_for_ecs_task_policies.arn
 }
 
 output "ecs_task_execution_role" {
-  value = aws_iam_role.custom_role_for_ecs_task_execution_policies.name
+  value = aws_iam_role.custom_role_for_ecs_task_execution_policies.arn
 }
