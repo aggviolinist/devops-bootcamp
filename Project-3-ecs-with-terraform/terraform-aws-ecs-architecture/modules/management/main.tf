@@ -143,3 +143,7 @@ resource "aws_iam_role_policy_attachment" "attach_cloudwatch_logs_to_ecs_task_ex
   role       = aws_iam_role.custom_role_for_ecs_task_execution_policies.name
   policy_arn = "arn:aws:iam::aws:policy/CloudWatchLogsFullAccess"
 }
+resource "aws_iam_role_policy_attachment" "attach_ec2containerservice_to_ecs_task_execution_role" {
+  role       = aws_iam_role.custom_role_for_ecs_task_execution_policies.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerServiceforEC2Role"
+}

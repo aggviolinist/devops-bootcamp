@@ -35,5 +35,5 @@ output "s3_bucket_name" {
 
 #Database
 output "database_name" {
-  value = module.database.database-name
+  value = module.database.database_name
 }

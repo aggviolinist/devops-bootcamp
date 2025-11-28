@@ -18,6 +18,7 @@ resource "aws_alb_target_group" "ecs_three_tier_target_group" {
   tags = {
     Name = "${var.project_name}-target-group"
   }
+  depends_on = [aws_alb.ecs_three_tier_elb]
 }
 
 resource "aws_alb" "ecs_three_tier_elb" {
@@ -39,6 +40,6 @@ resource "aws_alb_listener" "ecs_three_tier_listener" {
 
   default_action {
     type             = "forward"
-    target_group_arn = aws_alb_target_group.ecs_tier_tier_target_group.arn
+    target_group_arn = aws_alb_target_group.ecs_three_tier_target_group.arn
   }
 }
