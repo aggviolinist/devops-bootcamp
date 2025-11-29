@@ -37,3 +37,8 @@ output "s3_bucket_name" {
 output "database_name" {
   value = module.database.database_name
 }
+
+#ECS
+output "container" {
+  value = module.containers.container_name
+}

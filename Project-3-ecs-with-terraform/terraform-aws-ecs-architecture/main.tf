@@ -20,6 +20,7 @@ module "security" {
 module "management" {
   source       = "./modules/management"
   project_name = var.project_name
+
 }
 
 module "storage" {
@@ -51,12 +52,27 @@ module "database" {
 }
 
 module "containers" {
-  source = "./modules/containers"
-
-
+  source                  = "./modules/containers"
+  project_name            = var.project_name
+  private_subnet_ids      = module.network.private_subnet_ids
+  container_sg_id         = module.security.container_sg_id
+  alb_target_group        = module.traffic.alb_target_group
+  ecs_task_role           = module.management.ecs_task_role
+  ecs_task_execution_role = module.management.ecs_task_execution_role
+  database_secret_arn     = module.database.database_secret_arn
+  database_endpoint       = module.database.database_endpoint
+  ecr_repo                = module.registry.ecr_repo
 }
+
+module "traffic" {
+  source            = "./modules/traffic"
+  project_name      = var.project_name
+  vpc_id            = module.network.vpc_id
+  alb_server_sg_id  = module.security.alb_server_sg_id
+  public_subnet_ids = module.network.public_subnet_ids
+}
+
 module "registry" {
   source       = "./modules/registry"
   project_name = var.project_name
-
 }

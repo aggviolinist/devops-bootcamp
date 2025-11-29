@@ -25,8 +25,8 @@ resource "aws_alb" "ecs_three_tier_elb" {
   name               = "${var.project_name}-alb"
   internal           = false
   load_balancer_type = "application"
-  security_groups    = [var.alb_security_group_id]
-  subnets            = var.public_subnets
+  security_groups    = [var.alb_server_sg_id]
+  subnets            = var.public_subnet_ids
 
   tags = {
     Name = "${var.project_name}-alb"

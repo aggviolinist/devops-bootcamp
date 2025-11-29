@@ -122,7 +122,7 @@ resource "aws_iam_role_policy_attachment" "attach_s3_policies_to_ecs_task_role" 
 }
 resource "aws_iam_role_policy_attachment" "attach_ssm_full_access_to_ecs_task_role" {
   role       = aws_iam_role.custom_role_for_ecs_task_policies.name
-  policy_arn = "arn:aws:iam::aws:policy/AmazonSSMReadOnly"
+  policy_arn = "arn:aws:iam::aws:policy/AmazonSSMReadOnlyAccess"
 }
 
 #ecs task execution role policy attachments

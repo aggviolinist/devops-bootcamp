@@ -21,7 +21,7 @@ resource "random_password" "ecs_create_db_password" {
 
 #Secret Manager
 resource "aws_secretsmanager_secret" "ecs_rds_secret" {
-  name                    = "${var.project_name}-ecs-rds-secret"
+  name                    = "${var.project_name}-ecs-rds-secret-new"
   recovery_window_in_days = 7
 }
 resource "aws_secretsmanager_secret_version" "ecs_rds_secret_version" {
