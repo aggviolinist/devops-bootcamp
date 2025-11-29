@@ -5,24 +5,21 @@
 # ============================================
 
 # Docker Image Configuration
-export IMAGE_NAME="nest"
+export IMAGE_NAME="shopwise"
 export IMAGE_TAG="latest"
 
 # GitHub Configuration
-export GITHUB_USERNAME="az-salu"
-export REPOSITORY_NAME="test-nest"
-export APPLICATION_CODE_FILE_NAME="nest"
+export GITHUB_USERNAME="aggviolinist"
+export REPOSITORY_NAME="devops-bootcamp"
+export APPLICATION_CODE_FILE_NAME="shopwise"
 
 # RDS Database Configuration
-export RDS_ENDPOINT="dev-nest-db.cu2idoemakwo.us-east-1.rds.amazonaws.com"
-export RDS_DB_NAME="applicationdb"
+export RDS_ENDPOINT=""
+export RDS_DB_NAME=""
 export RDS_DB_USERNAME="admin"
 
-# Application Configuration
-export DOMAIN_NAME="www.aosnotes77.com"
-
 # AWS Secrets Manager Configuration
-export SECRET_NAME="test-dev-nest-secrets"
+export SECRET_NAME=""
 export AWS_REGION="us-east-1"
 
 # Color codes
@@ -73,12 +70,10 @@ echo -e "${CYAN}Building Docker image with BuildKit secrets...${NC}"
 export DOCKER_BUILDKIT=1
 
 # Set secrets as environment variables for BuildKit (will be mounted as secrets in the container)
-export PERSONAL_ACCESS_TOKEN_SECRET="$PERSONAL_ACCESS_TOKEN"
 export RDS_DB_PASSWORD_SECRET="$RDS_DB_PASSWORD"
 
 # Run the docker build command with BuildKit secrets
 docker build \
-  --secret id=personal_access_token,env=PERSONAL_ACCESS_TOKEN_SECRET \
   --secret id=rds_db_password,env=RDS_DB_PASSWORD_SECRET \
   --build-arg GITHUB_USERNAME="$GITHUB_USERNAME" \
   --build-arg REPOSITORY_NAME="$REPOSITORY_NAME" \
@@ -86,12 +81,10 @@ docker build \
   --build-arg RDS_ENDPOINT="$RDS_ENDPOINT" \
   --build-arg RDS_DB_NAME="$RDS_DB_NAME" \
   --build-arg RDS_DB_USERNAME="$RDS_DB_USERNAME" \
-  --build-arg DOMAIN_NAME="$DOMAIN_NAME" \
   -t "${IMAGE_NAME}:${IMAGE_TAG}" \
   .
 
 # Clean up temporary environment variables
-unset PERSONAL_ACCESS_TOKEN_SECRET
 unset RDS_DB_PASSWORD_SECRET
 
 # Check if build was successful

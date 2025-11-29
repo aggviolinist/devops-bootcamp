@@ -15,7 +15,6 @@ ARG APPLICATION_CODE_FILE_NAME
 ARG RDS_ENDPOINT
 ARG RDS_DB_NAME
 ARG RDS_DB_USERNAME
-ARG DOMAIN_NAME
 
 # Use the build argument to set environment variables (NON-SENSITIVE VALUES ONLY)
 ENV GITHUB_USERNAME=$GITHUB_USERNAME
@@ -24,7 +23,6 @@ ENV APPLICATION_CODE_FILE_NAME=$APPLICATION_CODE_FILE_NAME
 ENV RDS_ENDPOINT=$RDS_ENDPOINT
 ENV RDS_DB_NAME=$RDS_DB_NAME
 ENV RDS_DB_USERNAME=$RDS_DB_USERNAME
-ENV DOMAIN_NAME=$DOMAIN_NAME
 
 # ================================================================
 # Install server dependencies
@@ -59,9 +57,9 @@ RUN sed -i '/<Directory "\/var\/www\/html">/,/<\/Directory>/ s/AllowOverride Non
 WORKDIR /var/www/html
 
 # Clone the GitHub repository using BuildKit secret (this gets the LFS pointer files)
-RUN --mount=type=secret,id=personal_access_token \
-    PERSONAL_ACCESS_TOKEN=$(cat /run/secrets/personal_access_token) && \
-    git clone https://${PERSONAL_ACCESS_TOKEN}@github.com/${GITHUB_USERNAME}/${REPOSITORY_NAME}.git .
+RUN git clone https://github.com/${GITHUB_USERNAME}/${REPOSITORY_NAME}.git repo \
+    && cp -r repo/Project-3-resources/app/* . \
+    && rm -rf repo
 
 # Pull the actual LFS files
 RUN git lfs pull
@@ -69,10 +67,10 @@ RUN git lfs pull
 # Unzip the app code
 RUN unzip ${APPLICATION_CODE_FILE_NAME}.zip
 
-# Copy all files from 'nest' to web root
+# Copy all files from 'shopwise' to web root
 RUN cp -R ${APPLICATION_CODE_FILE_NAME}/. /var/www/html/
 
-# Remove the 'nest' directory and zip file
+# Remove the 'shopwise' directory and zip file
 RUN rm -rf ${APPLICATION_CODE_FILE_NAME} ${APPLICATION_CODE_FILE_NAME}.zip
 
 # ================================================================
@@ -91,7 +89,6 @@ RUN chmod -R 777 /var/www/html \
 # Update .env variables using BuildKit secret for password
 RUN --mount=type=secret,id=rds_db_password \
     RDS_DB_PASSWORD=$(cat /run/secrets/rds_db_password) && \
-    sed -i "/^APP_URL=/ s|=.*$|=https://${DOMAIN_NAME}/|" .env && \
     sed -i "/^DB_HOST=/ s|=.*$|=${RDS_ENDPOINT}|" .env && \
     sed -i "/^DB_DATABASE=/ s|=.*$|=${RDS_DB_NAME}|" .env && \
     sed -i "/^DB_USERNAME=/ s|=.*$|=${RDS_DB_USERNAME}|" .env && \
