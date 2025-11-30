@@ -15,14 +15,14 @@ resource "aws_ecs_service" "nest_app_ecs_service" {
   }
   load_balancer {
     target_group_arn = var.alb_target_group
-    container_name   = "nest-app"
-    container_port   = 3000
+    container_name   = "shopwise-app"
+    container_port   = 80
   }
   depends_on = [aws_ecs_task_definition.nest_app_task]
 }
 #Create the task definition for ECS Service
 resource "aws_ecs_task_definition" "nest_app_task" {
-  family                   = "${var.project_name}-nest-app-task"
+  family                   = "${var.project_name}-shopwise-app-task"
   network_mode             = "awsvpc"
   requires_compatibilities = ["FARGATE"]
   cpu                      = "256"
@@ -32,21 +32,21 @@ resource "aws_ecs_task_definition" "nest_app_task" {
 
   container_definitions = jsonencode([
     {
-      name      = "nest-app"
+      name      = "shopwise-app"
       image     = "${var.ecr_repo}:latest"
       cpu       = 256
       memory    = 512
       essential = true
       portMappings = [
         {
-          containerPort = 3000
+          containerPort = 80
           protocol      = "tcp"
         }
       ]
       logConfiguration = {
         logDriver = "awslogs"
         options = {
-          "awslogs-group"         = "/ecs/${var.project_name}-nest-app-logs"
+          "awslogs-group"         = "/ecs/${var.project_name}-shopwise-app-logs"
           "awslogs-region"        = "us-east-1"
           "awslogs-stream-prefix" = "ecs"
         }
@@ -58,17 +58,25 @@ resource "aws_ecs_task_definition" "nest_app_task" {
           name  = "DB_HOST"
           value = var.database_endpoint
 
+        },
+        {
+          name  = "DB_DATABASE"
+          value = var.database_name
+        },
+        {
+          name  = "DB_PORT"
+          value = "3306"
         }
       ]
 
       secrets = [
         {
-          name      = "DATABASE_USERNAME"
+          name      = "DB_USERNAME"
           valueFrom = "${var.database_secret_arn}:username::"
 
         },
         {
-          name      = "DATABASE_PASSWORD"
+          name      = "DB_PASSWORD"
           valueFrom = "${var.database_secret_arn}:password::"
         }
       ]
@@ -77,7 +85,7 @@ resource "aws_ecs_task_definition" "nest_app_task" {
 }
 
 resource "aws_cloudwatch_log_group" "nest_app_logs" {
-  name              = "/ecs/${var.project_name}-nest-app-logs"
+  name              = "/ecs/${var.project_name}-shopwise-app-logs"
   retention_in_days = 7
 }
 #Create Cluster for ECS Service

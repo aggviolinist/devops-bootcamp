@@ -12,17 +12,11 @@ ENV TERM=xterm \
 ARG GITHUB_USERNAME
 ARG REPOSITORY_NAME
 ARG APPLICATION_CODE_FILE_NAME
-ARG RDS_ENDPOINT
-ARG RDS_DB_NAME
-ARG RDS_DB_USERNAME
 
 # Use the build argument to set environment variables (NON-SENSITIVE VALUES ONLY)
 ENV GITHUB_USERNAME=$GITHUB_USERNAME
 ENV REPOSITORY_NAME=$REPOSITORY_NAME
 ENV APPLICATION_CODE_FILE_NAME=$APPLICATION_CODE_FILE_NAME
-ENV RDS_ENDPOINT=$RDS_ENDPOINT
-ENV RDS_DB_NAME=$RDS_DB_NAME
-ENV RDS_DB_USERNAME=$RDS_DB_USERNAME
 
 # ================================================================
 # Install server dependencies
@@ -58,11 +52,13 @@ WORKDIR /var/www/html
 
 # Clone the GitHub repository using BuildKit secret (this gets the LFS pointer files)
 RUN git clone https://github.com/${GITHUB_USERNAME}/${REPOSITORY_NAME}.git repo \
+    && cd repo \
+    && git lfs pull \
+    && cd .. \
     && cp -r repo/Project-3-resources/app/* . \
     && rm -rf repo
 
 # Pull the actual LFS files
-RUN git lfs pull
 
 # Unzip the app code
 RUN unzip ${APPLICATION_CODE_FILE_NAME}.zip
@@ -81,19 +77,7 @@ RUN rm -rf ${APPLICATION_CODE_FILE_NAME} ${APPLICATION_CODE_FILE_NAME}.zip
 RUN chmod -R 777 /var/www/html \
     && chmod -R 777 /var/www/html/bootstrap/cache/ \
     && chmod -R 777 /var/www/html/storage/
-
-# ================================================================
-# Update the .env file using BuildKit secret
-# ================================================================
-
-# Update .env variables using BuildKit secret for password
-RUN --mount=type=secret,id=rds_db_password \
-    RDS_DB_PASSWORD=$(cat /run/secrets/rds_db_password) && \
-    sed -i "/^DB_HOST=/ s|=.*$|=${RDS_ENDPOINT}|" .env && \
-    sed -i "/^DB_DATABASE=/ s|=.*$|=${RDS_DB_NAME}|" .env && \
-    sed -i "/^DB_USERNAME=/ s|=.*$|=${RDS_DB_USERNAME}|" .env && \
-    sed -i "/^DB_PASSWORD=/ s|=.*$|=${RDS_DB_PASSWORD}|" .env
-
+    
 # ================================================================
 # Replace the AppServiceProvider.php file
 # ================================================================
@@ -106,7 +90,7 @@ COPY AppServiceProvider.php app/Providers/AppServiceProvider.php
 # ================================================================
 
 # Expose the default Apache and MySQL ports
-EXPOSE 80 3306
+EXPOSE 80
 
 # Install and configure locales for Amazon Linux 2023
 RUN dnf install -y glibc-langpack-en && \

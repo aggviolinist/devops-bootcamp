@@ -62,6 +62,7 @@ module "containers" {
   database_secret_arn     = module.database.database_secret_arn
   database_endpoint       = module.database.database_endpoint
   ecr_repo                = module.registry.ecr_repo
+  database_name           = module.database.database_name
 }
 
 module "traffic" {

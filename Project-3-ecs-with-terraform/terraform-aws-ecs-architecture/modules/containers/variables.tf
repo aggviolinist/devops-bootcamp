@@ -31,6 +31,10 @@ variable "database_endpoint" {
   description = "The database endpoint"
   type        = string
 }
+variable "database_name" {
+  description = "This is the database name"
+  type        = string
+}
 variable "ecr_repo" {
   description = "The ECR repo for our project"
   type        = string

@@ -5,11 +5,11 @@
 # ============================================
 
 # Define repository name, region, and account ID
-ECR_REPO_NAME="nest"
-LOCAL_IMAGE_NAME="nest"  
+ECR_REPO_NAME="ecs-project-nest-app"
+LOCAL_IMAGE_NAME="shopwise"
 IMAGE_TAG="latest"
 AWS_REGION="us-east-1"
-AWS_ACCOUNT_ID="651783246143"
+AWS_ACCOUNT_ID="365897511972"
 
 # Color codes
 GREEN='\033[0;32m'
@@ -25,7 +25,7 @@ NC='\033[0m' # No Color
 # Attempt to describe the repository
 aws ecr describe-repositories \
   --repository-names "$ECR_REPO_NAME" \
-  --region "$AWS_REGION" 2>/dev/null
+  --region "$AWS_REGION" >/dev/null 2>&1
 
 # Check if the repository exists
 # $? contains exit code: 0 if previous command succeeded, non-zero otherwise
