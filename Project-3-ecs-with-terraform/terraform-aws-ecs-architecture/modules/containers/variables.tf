@@ -41,5 +41,5 @@ variable "ecr_repo" {
 }
 variable "alb_dns_name" {
   description = "The APP URL"
-  type = string
+  type        = string
 }

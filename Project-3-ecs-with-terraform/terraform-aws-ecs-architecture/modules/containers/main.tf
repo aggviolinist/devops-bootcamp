@@ -5,6 +5,7 @@ resource "aws_ecs_service" "nest_app_ecs_service" {
   task_definition                    = aws_ecs_task_definition.nest_app_task.arn
   desired_count                      = 2
   launch_type                        = "FARGATE"
+  platform_version = "1.4.0"
   deployment_minimum_healthy_percent = 50
   deployment_maximum_percent         = 200
 
@@ -55,31 +56,31 @@ resource "aws_ecs_task_definition" "nest_app_task" {
 
       environment = [
         {
-          name = "APP_NAME"
+          name  = "APP_NAME"
           value = "Your App"
         },
         {
-          name = "APP_ENV"
+          name  = "APP_ENV"
           value = "production"
         },
         {
-          name = "APP_DEBUG"
+          name  = "APP_DEBUG"
           value = "false"
         },
         {
-          name = "APP_KEY"
+          name  = "APP_KEY"
           value = "base64:SbzM2tzPsCSlpTEdyaju8l9w2C5vmtd4fNAduiLEqng="
         },
         {
-          name = "APP_URL"
+          name  = "APP_URL"
           value = "http://${var.alb_dns_name}"
         },
         {
-          name = "LOG_CHANNEL"
+          name  = "LOG_CHANNEL"
           value = "daily"
         },
         {
-          name = "DB_CONNECTION"
+          name  = "DB_CONNECTION"
           value = "mysql"
         },
         {
@@ -96,19 +97,19 @@ resource "aws_ecs_task_definition" "nest_app_task" {
           value = "3306"
         },
         {
-          name = "CACHE_DRIVER"
+          name  = "CACHE_DRIVER"
           value = "file"
         },
         {
-          name = "QUEUE_CONNECTION"
+          name  = "QUEUE_CONNECTION"
           value = "sync"
         },
         {
-          name = "SESSION_DRIVER"
+          name  = "SESSION_DRIVER"
           value = "file"
         },
         {
-          name = "ADMIN_DIR"
+          name  = "ADMIN_DIR"
           value = "admin"
         }
       ]
@@ -116,12 +117,12 @@ resource "aws_ecs_task_definition" "nest_app_task" {
       secrets = [
         {
           name      = "DB_USERNAME"
-          valueFrom = "${var.database_secret_arn}:username::"
+          valueFrom = "${var.database_secret_arn}:username"
 
         },
         {
           name      = "DB_PASSWORD"
-          valueFrom = "${var.database_secret_arn}:password::"
+          valueFrom = "${var.database_secret_arn}:password"
         }
       ]
     }

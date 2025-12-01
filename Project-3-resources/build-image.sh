@@ -19,14 +19,14 @@ CYAN='\033[0;36m'
 RED='\033[0;31m'
 NC='\033[0m' # No Color
 
+# ============================================
+# RETRIEVE SECRETS FROM AWS SECRETS MANAGER
+# ============================================
+
 echo -e "${CYAN}Starting Docker build process for $IMAGE_NAME application...${NC}"
 
 # Enable BuildKit
 export DOCKER_BUILDKIT=1
-
-# ============================================
-# BUILD DOCKER IMAGE 
-# ============================================
 
 # Run the docker build command with BuildKit secrets
 docker build \

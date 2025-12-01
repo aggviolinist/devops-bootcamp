@@ -13,6 +13,7 @@ ARG GITHUB_USERNAME
 ARG REPOSITORY_NAME
 ARG APPLICATION_CODE_FILE_NAME
 
+
 # Use the build argument to set environment variables (NON-SENSITIVE VALUES ONLY)
 ENV GITHUB_USERNAME=$GITHUB_USERNAME
 ENV REPOSITORY_NAME=$REPOSITORY_NAME
@@ -57,16 +58,14 @@ RUN git clone https://github.com/${GITHUB_USERNAME}/${REPOSITORY_NAME}.git repo 
     && cd .. \
     && cp -r repo/Project-3-resources/app/* . \
     && rm -rf repo
-
-# Pull the actual LFS files
-
+    
 # Unzip the app code
 RUN unzip ${APPLICATION_CODE_FILE_NAME}.zip
 
-# Copy all files from 'shopwise' to web root
+# Copy all files from 'nest' to web root
 RUN cp -R ${APPLICATION_CODE_FILE_NAME}/. /var/www/html/
 
-# Remove the 'shopwise' directory and zip file
+# Remove the 'nest' directory and zip file
 RUN rm -rf ${APPLICATION_CODE_FILE_NAME} ${APPLICATION_CODE_FILE_NAME}.zip
 
 # ================================================================
@@ -77,7 +76,13 @@ RUN rm -rf ${APPLICATION_CODE_FILE_NAME} ${APPLICATION_CODE_FILE_NAME}.zip
 RUN chmod -R 777 /var/www/html \
     && chmod -R 777 /var/www/html/bootstrap/cache/ \
     && chmod -R 777 /var/www/html/storage/
-    
+
+# ================================================================
+# Update the .env file using BuildKit secret
+# ================================================================
+
+# This is happening in entrypoint.sh
+
 # ================================================================
 # Replace the AppServiceProvider.php file
 # ================================================================
@@ -90,7 +95,7 @@ COPY AppServiceProvider.php app/Providers/AppServiceProvider.php
 # ================================================================
 
 # Expose the default Apache and MySQL ports
-EXPOSE 80
+EXPOSE 80 3306
 
 # Install and configure locales for Amazon Linux 2023
 RUN dnf install -y glibc-langpack-en && \
@@ -101,11 +106,16 @@ ENV LANG=en_US.UTF-8
 ENV LC_ALL=en_US.UTF-8
 
 # Copy the start-services script into the container
+COPY entrypoint.sh /usr/local/bin/entrypoint.sh
 COPY start-services.sh /usr/local/bin/start-services.sh
 
 # Ensure the script is executable and fix any line ending issues
-RUN chmod +x /usr/local/bin/start-services.sh && \
+RUN chmod +x /usr/local/bin/entrypoint.sh && \
+    chmod +x /usr/local/bin/start-services.sh && \
+    sed -i 's/\r$//' /usr/local/bin/entrypoint.sh && \
     sed -i 's/\r$//' /usr/local/bin/start-services.sh
 
-# Run the script to start both PHP-FPM and Apache
-CMD ["/usr/local/bin/start-services.sh"]
+# ==================================================================
+# Run the script to start both PHP-FPM and Apache and Inject Secrets
+# ==================================================================
+CMD ["/usr/local/bin/entrypoint.sh"]

@@ -63,6 +63,7 @@ module "containers" {
   database_endpoint       = module.database.database_endpoint
   ecr_repo                = module.registry.ecr_repo
   database_name           = module.database.database_name
+  alb_dns_name            = module.traffic.alb_dns_name
 }
 
 module "traffic" {

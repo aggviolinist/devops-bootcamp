@@ -12,7 +12,7 @@ resource "aws_alb_target_group" "ecs_three_tier_target_group" {
     timeout             = 5
     interval            = 30
     path                = "/" # Adjust to your health check endpoint
-    matcher             = "200,302"   
+    matcher             = "200,302"
   }
 
   tags = {

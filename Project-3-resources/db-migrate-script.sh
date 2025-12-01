@@ -6,11 +6,11 @@
 
 # Set basic environment variables
 export S3_URI='s3://obako-ecs/V1__shopwise.sql'
-export RDS_ENDPOINT='ecs-project-db.cszos622kt59.us-east-1.rds.amazonaws.com' 
+export RDS_ENDPOINT='ecs-project-db.cszos622kt59.us-east-1.rds.amazonaws.com'
 export RDS_DB_NAME='ecstierdatabase'
 export RDS_DB_USERNAME='admin'
 export FLYWAY_VERSION='11.15.0'
-export SECRET_NAME='ecs-project-ecs-rds-secretttt-new'
+export SECRET_NAME='ecs-project-ecs-rds-secrettttt-new'
 export AWS_REGION='us-east-1'
 
 # ================================================================
