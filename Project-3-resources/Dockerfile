@@ -29,10 +29,14 @@ RUN yum update -y
 # Install Git and unzip
 RUN dnf install -y git unzip
 
+RUN dnf install -y git unzip nmap-ncat
+
 # Install Git LFS
 RUN curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.rpm.sh | bash \
     && dnf install -y git-lfs \
     && git lfs install
+
+
 
 # Install Apache, PHP and required extensions
 RUN dnf install -y httpd php php-cli php-fpm php-mysqlnd php-bcmath php-ctype php-fileinfo php-json php-mbstring php-openssl php-pdo php-gd php-tokenizer php-xml php-curl

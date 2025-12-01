@@ -117,12 +117,12 @@ resource "aws_ecs_task_definition" "nest_app_task" {
       secrets = [
         {
           name      = "DB_USERNAME"
-          valueFrom = "${var.database_secret_arn}:username"
+          valueFrom = "${var.database_secret_arn}:username::"
 
         },
         {
           name      = "DB_PASSWORD"
-          valueFrom = "${var.database_secret_arn}:password"
+          valueFrom = "${var.database_secret_arn}:password::"
         }
       ]
     }

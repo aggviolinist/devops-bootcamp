@@ -34,6 +34,16 @@ resource "aws_iam_policy" "custom_policy_for_secrets_manager" {
           "secretsmanager:DescribeSecret"
         ]
         Resource = "*"
+      },
+       {
+        Effect = "Allow"
+        Action = "kms:Decrypt"
+        Resource = "*"
+        Condition = {
+          StringEquals = {
+            "kms:ViaService" = "secretsmanager.us-east-1.amazonaws.com"
+          }
+        }
       }
     ]
   })
