@@ -55,6 +55,34 @@ resource "aws_ecs_task_definition" "nest_app_task" {
 
       environment = [
         {
+          name = "APP_NAME"
+          value = "Your App"
+        },
+        {
+          name = "APP_ENV"
+          value = "production"
+        },
+        {
+          name = "APP_DEBUG"
+          value = "false"
+        },
+        {
+          name = "APP_KEY"
+          value = "base64:SbzM2tzPsCSlpTEdyaju8l9w2C5vmtd4fNAduiLEqng="
+        },
+        {
+          name = "APP_URL"
+          value = "http://${var.alb_dns_name}"
+        },
+        {
+          name = "LOG_CHANNEL"
+          value = "daily"
+        },
+        {
+          name = "DB_CONNECTION"
+          value = "mysql"
+        },
+        {
           name  = "DB_HOST"
           value = var.database_endpoint
 
@@ -66,6 +94,22 @@ resource "aws_ecs_task_definition" "nest_app_task" {
         {
           name  = "DB_PORT"
           value = "3306"
+        },
+        {
+          name = "CACHE_DRIVER"
+          value = "file"
+        },
+        {
+          name = "QUEUE_CONNECTION"
+          value = "sync"
+        },
+        {
+          name = "SESSION_DRIVER"
+          value = "file"
+        },
+        {
+          name = "ADMIN_DIR"
+          value = "admin"
         }
       ]
 

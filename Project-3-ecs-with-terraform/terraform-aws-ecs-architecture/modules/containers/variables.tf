@@ -39,3 +39,7 @@ variable "ecr_repo" {
   description = "The ECR repo for our project"
   type        = string
 }
+variable "alb_dns_name" {
+  description = "The APP URL"
+  type = string
+}

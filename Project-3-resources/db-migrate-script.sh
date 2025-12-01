@@ -10,7 +10,7 @@ export RDS_ENDPOINT='ecs-project-db.cszos622kt59.us-east-1.rds.amazonaws.com'
 export RDS_DB_NAME='ecstierdatabase'
 export RDS_DB_USERNAME='admin'
 export FLYWAY_VERSION='11.15.0'
-export SECRET_NAME='ecs-project-ecs-rds-secrettt-new'
+export SECRET_NAME='ecs-project-ecs-rds-secretttt-new'
 export AWS_REGION='us-east-1'
 
 # ================================================================

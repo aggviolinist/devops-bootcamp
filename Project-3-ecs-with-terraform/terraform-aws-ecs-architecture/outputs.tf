@@ -42,3 +42,7 @@ output "database_name" {
 output "container" {
   value = module.containers.container_name
 }
+#ALB URL
+output "app_url" {
+  value = "http://${module.traffic.alb_dns_name}"
+}
