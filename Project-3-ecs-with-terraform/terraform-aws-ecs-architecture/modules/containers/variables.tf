@@ -43,3 +43,7 @@ variable "alb_dns_name" {
   description = "The APP URL"
   type        = string
 }
+variable "db_username" {
+  description = "The name of the database to be created"
+  type        = string
+}

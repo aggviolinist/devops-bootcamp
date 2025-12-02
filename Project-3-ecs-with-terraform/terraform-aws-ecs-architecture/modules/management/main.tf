@@ -35,9 +35,9 @@ resource "aws_iam_policy" "custom_policy_for_secrets_manager" {
         ]
         Resource = "*"
       },
-       {
-        Effect = "Allow"
-        Action = "kms:Decrypt"
+      {
+        Effect   = "Allow"
+        Action   = "kms:Decrypt"
         Resource = "*"
         Condition = {
           StringEquals = {

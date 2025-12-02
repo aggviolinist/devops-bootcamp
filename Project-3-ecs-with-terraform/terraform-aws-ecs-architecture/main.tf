@@ -64,6 +64,7 @@ module "containers" {
   ecr_repo                = module.registry.ecr_repo
   database_name           = module.database.database_name
   alb_dns_name            = module.traffic.alb_dns_name
+  db_username             = var.db_username
 }
 
 module "traffic" {
