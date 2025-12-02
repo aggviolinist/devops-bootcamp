@@ -93,8 +93,8 @@ resource "aws_ecs_task_definition" "nest_app_task" {
           value = var.database_name
         },
         {
-          name      = "DB_USERNAME"
-          valueFrom = var.db_username
+          name  = "DB_USERNAME"
+          value = var.db_username
         },
 
         {
