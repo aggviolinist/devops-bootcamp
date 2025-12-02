@@ -93,25 +93,11 @@ RUN chmod -R 777 /var/www/html \
 
 # Replace AppServiceProvider.php
 COPY AppServiceProvider.php app/Providers/AppServiceProvider.php
-
+COPY entrypoint.sh /usr/local/bin/entrypoint.sh
+COPY start-services.sh /usr/local/bin/start-services.sh
 # ================================================================
 # Configure locales, container startup, and expose ports
 # ================================================================
-
-# Expose the default Apache and MySQL ports
-EXPOSE 80 3306
-
-# Install and configure locales for Amazon Linux 2023
-RUN dnf install -y glibc-langpack-en && \
-    dnf clean all
-
-# Set locale environment variables
-ENV LANG=en_US.UTF-8
-ENV LC_ALL=en_US.UTF-8
-
-# Copy the start-services script into the container
-COPY entrypoint.sh /usr/local/bin/entrypoint.sh
-COPY start-services.sh /usr/local/bin/start-services.sh
 
 # Ensure the script is executable and fix any line ending issues
 RUN chmod +x /usr/local/bin/entrypoint.sh && \
@@ -119,7 +105,11 @@ RUN chmod +x /usr/local/bin/entrypoint.sh && \
     sed -i 's/\r$//' /usr/local/bin/entrypoint.sh && \
     sed -i 's/\r$//' /usr/local/bin/start-services.sh
 
+
+# Expose the default Apache and MySQL ports
+EXPOSE 80 3306
+
 # ==================================================================
 # Run the script to start both PHP-FPM and Apache and Inject Secrets
 # ==================================================================
-CMD ["/usr/local/bin/entrypoint.sh"]
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
