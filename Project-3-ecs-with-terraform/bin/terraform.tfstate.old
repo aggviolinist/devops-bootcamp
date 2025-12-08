@@ -1,0 +1,75 @@
+{
+  "version": 4,
+  "terraform_version": "1.14.0",
+  "serial": 42,
+  "lineage": "abc123def456",
+  "outputs": {},
+  "resources": [
+    {
+      "mode": "managed",
+      "type": "aws_instance",
+      "name": "web_server",
+      "address": "aws_instance.web_server",
+      "instances": [
+        {
+          "schema_version": 1,
+          "attributes": {
+            "id": "i-0abcd1234efgh5678",
+            "ami": "ami-0c55b159cbfafe1f0",
+            "instance_type": "t2.micro",
+            "key_name": "my-key",
+            "availability_zone": "us-east-1a",
+            "private_ip": "10.0.1.100",
+            "public_ip": "54.123.45.67",
+            "security_groups": [
+              "default"
+            ],
+            "tags": {
+              "Name": "WebServer",
+              "Environment": "Production"
+            },
+            "root_block_device": {
+              "volume_type": "gp2",
+              "volume_size": 20,
+              "delete_on_termination": true
+            }
+          }
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "aws_s3_bucket",
+      "name": "app_bucket",
+      "address": "aws_s3_bucket.app_bucket",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "id": "my-app-bucket-12345",
+            "bucket": "my-app-bucket-12345",
+            "region": "us-east-1",
+            "acl": "private",
+            "versioning": {
+              "enabled": true,
+              "mfa_delete": false
+            },
+            "tags": {
+              "Name": "AppBucket",
+              "Environment": "Production",
+              "Purpose": "DataStorage"
+            },
+            "server_side_encryption_configuration": {
+              "rule": {
+                "apply_server_side_encryption_by_default": {
+                  "sse_algorithm": "AES256"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "check_results": null
+}
