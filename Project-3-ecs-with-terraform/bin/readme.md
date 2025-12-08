@@ -38,7 +38,11 @@ Total Changes Detected: 3
       Old: t3.micro
       New: t3.small
 ```
-## Checking on cost
+## Checking on cost on script
 ```sh 
 python drift-detector.py terraform.tfstate.old terraform.tfstate --costs --tf-dir ../terraform-aws-ecs-architecture
+```
+## Checking on cost manually
+```sh
+infracost breakdown --path .  
 ```
