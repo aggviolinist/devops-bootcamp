@@ -1,14 +1,19 @@
+## Install the python environment 
+```sh 
+ source venv/bin/deactivate  
+```
+
 ## First, install the required dependency:
 ```sh
 pip install deepdiff
 ```
 
-# Basic comparison
+## Basic comparison
 ```sh
 python script.py terraform.tfstate.old terraform.tfstate
 ```
 
-# With detailed changes
+## With detailed changes
 ```sh
 python script.py terraform.tfstate.old terraform.tfstate --detailed
 ```
@@ -32,4 +37,8 @@ Total Changes Detected: 3
     values_changed: instances[0].attributes.instance_type
       Old: t3.micro
       New: t3.small
+```
+## Checking on cost
+```sh 
+python drift-detector.py terraform.tfstate.old terraform.tfstate --costs --tf-dir ../terraform-aws-ecs-architecture
 ```
