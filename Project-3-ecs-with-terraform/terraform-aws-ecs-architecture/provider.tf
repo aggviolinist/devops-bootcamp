@@ -5,6 +5,14 @@ terraform {
       version = "~> 6.0"
     }
   }
+  cloud { 
+    
+    organization = "Oblock" 
+
+    workspaces { 
+      name = "ecs-project" 
+    } 
+  } 
 }
 
 # Configure the AWS Provider
