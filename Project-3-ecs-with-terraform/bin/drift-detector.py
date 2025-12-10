@@ -37,7 +37,7 @@ def extract_resources(state: Dict[str, Any]) -> Dict[str, Dict]:
     resources = {}
     
     if "resources" in state:
-        for resource in state["resources"]:
+        for resource in state["resources_changes"]:
             addr = resource.get("address", "unknown")
             resources[addr] = resource
     
@@ -121,8 +121,8 @@ def extract_resource_costs(breakdown: Dict[str, Any]) -> Dict[str, float]:
         return resource_costs
     
     for project in breakdown["projects"]:
-        if "breakdown" in project and "resources" in project["breakdown"]:
-            for resource in project["breakdown"]["resources"]:
+        if "breakdown" in project and "resources_changes" in project["breakdown"]:
+            for resource in project["breakdown"]["resources_changes"]:
                 resource_name = resource.get("name", "unknown")
                 resource_type = resource.get("resourceType", "unknown")
                 cost_str = resource.get("monthlyCost", "0")
