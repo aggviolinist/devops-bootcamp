@@ -34,14 +34,14 @@ def load_state_file(filepath: str) -> Dict[str, Any]:
 
 def extract_resources(state: Dict[str, Any]) -> Dict[str, Dict]:
     """Extract resources from state file as a dictionary keyed by address."""
-    resources = {}
+    resources_changes = {}
     
-    if "resources" in state:
+    if "resources_changes" in state:
         for resource in state["resources_changes"]:
             addr = resource.get("address", "unknown")
-            resources[addr] = resource
+            resources_changes[addr] = resource
     
-    return resources
+    return resources_changes
 
 def compare_states(old_resources: Dict[str, Dict], new_resources: Dict[str, Dict]) -> StateComparison:
     """Compare two sets of resources and identify changes."""

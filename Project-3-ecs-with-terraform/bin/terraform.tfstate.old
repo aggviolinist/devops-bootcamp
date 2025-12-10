@@ -4,7 +4,7 @@
   "serial": 42,
   "lineage": "abc123def456",
   "outputs": {},
-  "resources": [
+  "resources_changes": [
     {
       "mode": "managed",
       "type": "aws_instance",
